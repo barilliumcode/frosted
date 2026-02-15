@@ -1,6 +1,4 @@
-setwd("~/Desktop/Thesis/Code")
-
-#--------------------------------------------------------------------------------
+# Smith, W. (2026). Statistical analysis of oviposition and feeding experiments. GitHub. [permalink]
 
 # Packages used
 install.packages("ggplot2") #graphing
@@ -14,7 +12,6 @@ library(car)
 library(FSA)
 library(epitools)
 
-
 #--------------------------------------------------------------------------------
 # Does the chance of survival differ between feeding groups?
 
@@ -25,8 +22,7 @@ survivalTable<-table(surv$Survive, surv$Treatment)
 survivalTable
 # if(surv$Survive = 0) then the larva did not survive to pupation
 # if(surv$Survive = 1) then the larva survived to pupation
-# Total number of egg hatch = 296
-71+103+74+48
+71+103+74+48 # Total number of egg hatch = 296
 # Hatches in sundial feeding group = 145
 # Hatches in large leaf feeding group = 151
 # Survived in sundial feeding group = 74
@@ -65,7 +61,6 @@ head(df_EF)
 #Remove environment clutter. 
 rm(df_OF)
 rm(df_EF)
-
 
 #--------------------------------------------------------------------------------
 # Does the chance of eclosure differ between feeding groups?
@@ -122,7 +117,6 @@ mosaicplot(t(ecloseTable), col=c("#4f5f29", "#9bbb59"), cex.axis=1,
            xlab="Feeding Group", ylab="Proportion Eclosed", 
            main="Eclosure Mosaic Plot")
 
-
 #Remove environment clutter. 
 rm(df_OF)
 rm(df_EF)
@@ -130,7 +124,6 @@ rm(ecloseTable)
 rm(survivalTable)
 rm(subsetEclose)
 rm(surv)
-
 
 #--------------------------------------------------------------------------------
 # Do pupal weights differ between feeding groups?
@@ -160,7 +153,7 @@ ggplot(full, aes(x=Treatment, y=Weight..g., fill=Treatment))+
 aggregate(full$Weight..g., list(Treatment = full$Treatment),median)
 aggregate(full$Weight..g., list(Treatment = full$Treatment),IQR)
 
-#-----------------------------------------------------------median()#--------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------
 # Does the number of days from hatch until pupation differ between feeding groups?
 
 regress<-read.csv("WS_R_length_regression.csv")
@@ -176,7 +169,6 @@ leveneTest(Pupated..days. ~ Treatment, data=full) #p<0.05 unequal variance - pos
 # Wilcoxon Test. 
 wilcox.test(Pupated..days. ~ Treatment, data=full)
 # Number of days until pupation differ between feeding groups (W=3277.5, p=2.868x10^-15). 
-
 
 # Linear model. 
 rlm<-lm(Length..mm.~Treatment*Age..days.,data=regress)
@@ -210,7 +202,6 @@ rm(regress)
 rm(rlm)
 rm(full)
 
-
 #--------------------------------------------------------------------------------
 # Do frosted elfins preferentially lay eggs on one lupine over the other?
 
@@ -232,6 +223,3 @@ ggboxplot(laydata, x="Location", y="Number.Eggs",
 
 #Remove environment clutter. 
 rm(laydata)
-
-
-#--------------------------------------------------------------------------------
