@@ -1,6 +1,8 @@
-# Change in plant area over time
+# Smith, W. (2026). Change in L. perennis area over time. GitHub. https://github.com/barilliumcode/frosted/blob/c0bb76942e0cf59ed92c1313aea7bbcdeaf588ce/AreaEstimate.R
 
-setwd("~/Desktop/Thesis/Modeling/Lupine pop") #or wherever files are stored
+# Adapted from Kimball-Rhines, C. (2026). Transect Point-Intercept Population Estimate. GitHub. 
+# https://github.com/coopermkr/lperennisGBS/blob/d9bb4616f2f687b9945c2e0dca04a4eedac4a256/scripts/transectEstimate.R
+
 # Load libraries
 install.packages("tidyverse")
 install.packages("performance")
