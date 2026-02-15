@@ -1,4 +1,15 @@
-# modeled after https://strimas.com/post/lotka-volterra/
+# Smith, W. (2026). Modeling C. irus response to L. polyphyllus. GitHub. 
+
+# Used to look at 3 different scenarios:
+# 1. Normal condition. Initial state = A population of 2,500 C. irus has 50000m^2 of L. perennis.
+# End result = steady populations of C. irus and L. perennis.
+# 2. L. polyphyllus invasion. Initial state = A population of 2,500 C. irus has 50000m^2 of...
+# L. perennis and 10m^2 of L. polyphyllus. End result = L. polyphyllus outcompetes L. perennis...
+# and the C. irus population plumets.
+# 3. Only L. polyphyllus. Initial state = A population of 2,500 C. irus has 50000m^2 of L. polyphyllus.
+# End result = C. irus populations drop to 0. 
+
+# Adapted from https://strimas.com/post/lotka-volterra/
 
 #---------- Loading packages
 install.packages("tidyverse") #pivot_longer to reshape data
@@ -7,26 +18,15 @@ install.packages("ggplot2") #graphing
 library(tidyverse)
 library(deSolve)
 library(ggplot2)
-#------
-pars <- c(decay = 0.7, Sbenefit = 0.000014, Sgrowth = 1.2, Sconsumed = 0.0001, 
-          k = 80000, Lbenefit = 0.00002, Lgrowth = 1.1, Lconsumed = 0.0002)
 
-# coexistence 
-pars <- c(decay = 0.7, Sbenefit = 0.00004, Sgrowth = 1.5, Sconsumed = 0.00025, 
-          k = 80000, Lbenefit = 0.00002, Lgrowth = 1.2, Lconsumed = 0.0002)
-#------
 #---------- Key to PARAMETER language used below:
 # S = sundial lupine; L = large leaf lupine; decay = exponential decay... 
-# in the absence of plants; benefit = benefit to butterfly of... 
-# interaction w/ plant; growth = logistic growth in absence of...
-# butterflies; consumed = rate at which plant is consumed; 
+# of butterfly in the absence of plants; benefit = benefit to butterfly of... 
+# interaction w/ plant; growth = logistic growth of plants in absence of...
+# butterflies; consumed = rate at which plant is consumed; k = carrying capacity
 
 pars <- c(decay = 0.7, Sbenefit = 0.000014, Sgrowth = 1, Sconsumed = 0.00018, 
           k = 80000, Lbenefit = 0.000005, Lgrowth = 2, Lconsumed = 0.000018)
-
-#fitness of the plant if its eaten
-#start with L as 0 to look at steady state to narrow in on s parameters, keep constant, then add L parameters
-#and then what happens to the butterflies when just LL? 
 
 #---------- Key to INITIAL STATE language used below:
 # x = frosted elfin pop, y = sundial lupine pop, z = large leaf lupine pop
@@ -57,6 +57,4 @@ ggplot(long_df, aes(time, Value, shape=Variable, colour=Variable))+
   geom_point()+
   ylim(0,100000)+
   theme_classic()+
-  labs(x="Time", y= "Populations")+
-  theme(legend.position="none")
-
+  labs(x="Time", y= "Populations")
