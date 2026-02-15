@@ -1,4 +1,4 @@
-# Smith, W. (2026). Statistical analysis of oviposition and feeding experiments. GitHub. [permalink]
+# Smith, W. (2026). Statistical analysis of oviposition and feeding experiments. GitHub. https://github.com/barilliumcode/frosted/blob/0dd55ac4f52c11364c261fda16fc3b5a5785e6ab/Statistics.R
 
 # Packages used
 install.packages("ggplot2") #graphing
