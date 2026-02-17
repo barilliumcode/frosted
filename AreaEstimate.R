@@ -31,7 +31,7 @@ meta <- read_csv("transectMeta.csv") |>
 transectSizeFilt <- transects |>
   filter(SPP %in% c("LUPE", "LP", "lp")) |>
   mutate(TRANSECT = str_split_i(INTERCEPT, pattern = "-", 1), # Pull transect from intercept column
-         Area = as.numeric(Area)) |> # Fix data type of intercept
+         Area = as.numeric(Area)) |> # Fix data type of area
   filter(!is.na(Area),
          Area > 0) |> # Filter out missing intercept data
   select(SITE, YEAR, TRANSECT, Area) # Only keeping columns relevant to this calculation
@@ -78,7 +78,8 @@ yearTotal |>
   geom_point() +
   stat_smooth(method = "lm") +
   theme_classic() +
-  labs(x = "Year", y = "Total Area of Sundial Lupine (cm^2)")
+  labs(x = "Year", y = "Total Area of Sundial Lupine (cm^2)")+
+  ylim(0,10000000)
 
 # Create model shown in the graph
 estLM <- yearTotal |>
@@ -87,7 +88,7 @@ estLM <- yearTotal |>
 
 # Graphing the plant area of each CZ over time
 #------------------------------------------------------ 
-options(scipen=999)
+options(scipen=999) #to fix y axis
 ## Site 1
 CZ1Adf<-subset(df, SITE=="CZ1A")
 CZ1Adf |>
