@@ -1,4 +1,4 @@
-# Smith, W. (2026). Modeling C. irus response to L. polyphyllus. GitHub. [permalink from github]
+# Smith, W. (2026). Modeling C. irus response to L. polyphyllus. GitHub. https://github.com/barilliumcode/frosted/blob/58d72a14c2ff1ffaebaa6787a0b94741a90dbff3/Model.R
 
 # Used to look at 5 different scenarios:
 # 1.) Normal condition: A population of C. irus with only L. perennis present. 
