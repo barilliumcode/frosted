@@ -4,5 +4,10 @@ Abstract: Herbivorous insects share a complex evolutionary relationship with the
 
 This repository includes
 [AreaEstimate.R] -> uses NHFG lupine transect data to estimate the area of L. perennis (for parameter estimation in Model.R)
+.csv files include "combinedTransectArea" and "transectMETA"
+
 [Model.R] -> models the impact of a L. polyphyllus invasion to a population of C. irus
+no .csv files associated
+
 [Statistics.R] -> analyses the oviposition preference and larval performance (development + survival) of C. irus between L. perennis and L. polyphyllus
+.csv files include Statistics_FullLarvae, Statistics_Survival, Statistics_laydata, and Statistics_regression
