@@ -15,7 +15,7 @@ library(epitools)
 #--------------------------------------------------------------------------------
 # Does the chance of survival differ between feeding groups?
 
-surv<-read.csv("WS_R_survival.csv")
+surv<-read.csv("Statistics_survival.csv")
 
 # Finding the percent survival 
 survivalTable<-table(surv$Survive, surv$Treatment)
@@ -128,7 +128,7 @@ rm(surv)
 #--------------------------------------------------------------------------------
 # Do pupal weights differ between feeding groups?
 
-full<-read.csv("WS_R_FullLarvae.csv")
+full<-read.csv("Statistics_FullLarvae.csv")
 
 # Checking assumptions of a 2 way t-test. 
 subsetS<- full[ which(full$Treatment == 'Lupinus perennis'),]
@@ -156,7 +156,7 @@ aggregate(full$Weight..g., list(Treatment = full$Treatment),IQR)
 #--------------------------------------------------------------------------------
 # Does the number of days from hatch until pupation differ between feeding groups?
 
-regress<-read.csv("WS_R_length_regression.csv")
+regress<-read.csv("Statistics_regression.csv")
 
 # Checking assumptions of 2 way t-test. 
 subsetS<- full[ which(full$Treatment == 'Lupinus perennis'),]
@@ -205,7 +205,7 @@ rm(full)
 #--------------------------------------------------------------------------------
 # Do frosted elfins preferentially lay eggs on one lupine over the other?
 
-laydata <-read.csv("WS_R_laydata.csv")
+laydata <-read.csv("Statistics_laydata.csv")
 
 # Checking assumptions of 2 way t-test. 
 shapiro.test(laydata$Number.Eggs) #p<0.05, skewed dist
