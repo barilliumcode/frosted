@@ -1,28 +1,35 @@
 # Smith, W. (2026). Statistical analysis of oviposition and feeding experiments. GitHub. https://github.com/barilliumcode/frosted/blob/0dd55ac4f52c11364c261fda16fc3b5a5785e6ab/Statistics.R
 
+setwd("~/Desktop/Thesis/Code")
+
+#--------------------------------------------------------------------------------
+
 # Packages used
 install.packages("ggplot2") #graphing
 install.packages("ggpubr") #graphing
 install.packages("car") #levene's test
 install.packages("FSA") #dunn test
 install.packages("epitools") #odds ratio
+install.packages("dplyr") #laydf bar graph order
 library(ggplot2)
 library(ggpubr)
 library(car)
 library(FSA)
 library(epitools)
+library(dplyr)
 
 #--------------------------------------------------------------------------------
 # Does the chance of survival differ between feeding groups?
 
-surv<-read.csv("Statistics_survival.csv")
+surv<-read.csv("WS_R_survival.csv")
 
 # Finding the percent survival 
 survivalTable<-table(surv$Survive, surv$Treatment)
 survivalTable
 # if(surv$Survive = 0) then the larva did not survive to pupation
 # if(surv$Survive = 1) then the larva survived to pupation
-71+103+74+48 # Total number of egg hatch = 296
+# Total number of egg hatch = 296
+71+103+74+48
 # Hatches in sundial feeding group = 145
 # Hatches in large leaf feeding group = 151
 # Survived in sundial feeding group = 74
@@ -110,10 +117,10 @@ head(df_EF)
 
 #Graph both mosaic plots together
 par(mfrow=c(1,2))
-mosaicplot(t(survivalTable), col=c("#4f5f29", "#9bbb59"), cex.axis=1,
+mosaicplot(t(survivalTable), col=c("#463f3a", "#9bbb59"), cex.axis=1,
            xlab="Feeding Group", ylab="Proportion Survived", 
            main="Survival Mosaic Plot")
-mosaicplot(t(ecloseTable), col=c("#4f5f29", "#9bbb59"), cex.axis=1,
+mosaicplot(t(ecloseTable), col=c("#463f3a", "#9bbb59"), cex.axis=1,
            xlab="Feeding Group", ylab="Proportion Eclosed", 
            main="Eclosure Mosaic Plot")
 
@@ -128,7 +135,7 @@ rm(surv)
 #--------------------------------------------------------------------------------
 # Do pupal weights differ between feeding groups?
 
-full<-read.csv("Statistics_FullLarvae.csv")
+full<-read.csv("WS_R_FullLarvae.csv")
 
 # Checking assumptions of a 2 way t-test. 
 subsetS<- full[ which(full$Treatment == 'Lupinus perennis'),]
@@ -144,7 +151,7 @@ wilcox.test(Weight..g. ~ Treatment, data=full)
 # Graphing pupal weight data. 
 ggplot(full, aes(x=Treatment, y=Weight..g., fill=Treatment))+
   geom_boxplot(show.legend=FALSE)+theme_classic()+
-  scale_fill_manual(values=c("#4f5f29", "#9bbb59"))+
+  scale_fill_manual(values=c("#9bbb59", "#277da1"))+
   xlab("Feeding Group")+ylab("Pupal Weight (g)")+
   stat_summary(fun=mean, geom="point", shape=20, size=4, color="#CCC", fill="#CCC")
 # Result:
@@ -153,10 +160,10 @@ ggplot(full, aes(x=Treatment, y=Weight..g., fill=Treatment))+
 aggregate(full$Weight..g., list(Treatment = full$Treatment),median)
 aggregate(full$Weight..g., list(Treatment = full$Treatment),IQR)
 
-#--------------------------------------------------------------------------------
+#-----------------------------------------------------------median()#--------------------------------------------------------------------------------
 # Does the number of days from hatch until pupation differ between feeding groups?
 
-regress<-read.csv("Statistics_regression.csv")
+regress<-read.csv("WS_R_length_regression.csv")
 
 # Checking assumptions of 2 way t-test. 
 subsetS<- full[ which(full$Treatment == 'Lupinus perennis'),]
@@ -176,18 +183,18 @@ summary(rlm)
 hist(resid(rlm)) #normal
 qqnorm(resid(rlm)) #normal 
 
-# Plot the model with boxplot comparing days to pupation. 
+# Plot the model and graph a boxplot comparing days to pupation. 
 par(mfrow=c(1,2))
 ggplot(full, aes(x=Treatment, y=Pupated..days., fill=Treatment))+
   geom_boxplot(show.legend=FALSE)+theme_classic()+
-  scale_fill_manual(values=c("#4f5f29", "#9bbb59"))+
+  scale_fill_manual(values=c("#90be6d", "#277da1"))+
   xlab("Feeding Group")+ylab("Days to Pupation")+
   stat_summary(fun=mean, geom="point", shape=20, size=4, color="#CCC", fill="#CCC")
 ggplot(regress, aes(x=Age..days., y=Length..mm., color=Treatment)) +
   geom_point() + 
   geom_smooth(show.legend=FALSE, method=lm, aes(fill=Treatment)) + theme_classic()+
-  scale_fill_manual(values=c("#4f5f29", "#9bbb59"))+
-  scale_colour_manual(name="", values = c("Lupinus perennis"="#4f5f29", "Lupinus polyphyllus"="#9bbb59"))+
+  scale_fill_manual(values=c("#90be6d", "#277da1"))+
+  scale_colour_manual(name="", values = c("Lupinus perennis"="#90be6d", "Lupinus polyphyllus"="#277da1"))+
   xlab("Age (days)")+ylab("Larval Length (mm)")
 # Result:
 # Median number of days to pupation for sundial lupine feeders is 32 days
@@ -205,21 +212,28 @@ rm(full)
 #--------------------------------------------------------------------------------
 # Do frosted elfins preferentially lay eggs on one lupine over the other?
 
-laydata <-read.csv("Statistics_laydata.csv")
+laydata <-read.csv("WS_R_laydata.csv")
 
 # Checking assumptions of 2 way t-test. 
 shapiro.test(laydata$Number.Eggs) #p<0.05, skewed dist
+shapiro.test(laydata$Log) #p<0.05, skewed dist
+shapiro.test(laydata$Sqrt) #p<0.05, skewed dist, transformations don't work
 # Assumptions not met. Move to Wilcoxon. 
 # Testing assumption of equal variance. 
 leveneTest(Number.Eggs ~ Location, data=laydata) #p>0.05, equal variance
 # Wilcoxon Test. 
 wilcox.test(laydata$Number.Eggs ~ laydata$Location)
 # # More eggs laid on sundial lupine than large leaf lupine (W=216, p=0.005702). 
-#Graphing. 
-ggboxplot(laydata, x="Location", y="Number.Eggs",
-          order = c("Lupinus perennis", "Lupinus polyphyllus"),
-          ylab = "Number of Eggs", xlab = "Lay Loci",
-          color = "Location", palette = c("#4f5f29", "#9bbb59"))
+# Graphing. 
+ggplot(laydata, aes(x=Location, y=Number.Eggs))+
+  geom_boxplot()+
+  scale_fill_manual(values = c("#90be6d", "#277da1"))+
+  theme_classic()
+  
+# ggplot not working anymore (4/30/26), switched to base R 
+boxplot(laydata$Number.Eggs ~ laydata$Location , 
+        col="#90be6d", 
+        ylab="Eggs Laid" , xlab="Location")
 
 #Remove environment clutter. 
 rm(laydata)
