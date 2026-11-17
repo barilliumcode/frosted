@@ -10,4 +10,4 @@ This repository includes
 no .csv files associated
 
 [Statistics.R] -> analyses the oviposition preference and larval performance (development + survival) of C. irus between L. perennis and L. polyphyllus
-.csv files include Statistics_FullLarvae, Statistics_Survival, Statistics_laydata, and Statistics_regression
+.csv files include Statistics_FullLarvae, Statistics_Survival, Statistics_dailygrowthrate, Statistics_laydata, and Statistics_regression
